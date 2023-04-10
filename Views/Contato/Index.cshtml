@@ -1,0 +1,67 @@
+﻿@model List<ContatoModel>
+@{
+    ViewData["Title"] = "Contatos";
+}
+<div class="text-center">
+
+    <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary" role="button" asp-controller="Contato" asp-action="Criar">Adicionar novo contato</a>
+    </div>
+    <br />
+
+    @{
+        if (TempData["MsgSucesso"] != null)
+        {
+            <div class="alert alert-success" role="alert">
+                @TempData["MsgSucesso"]
+                <button type="button" class="btn btn-success btn-sm close-alert" aria-label="Close">X</button>
+            </div>
+        }
+        if (TempData["MsgErro"] != null)
+        {
+            <div class="alert alert-danger" role="alert">
+                @TempData["MsgErro"]
+                <button type="button" class="btn btn-danger btn-sm close-alert" aria-label="Close">X</button>
+            </div>
+        }
+    }
+
+    <h1 class="display-4">Listagem de Contatos</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Nome</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Telefone</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            @{
+                if (Model != null && Model.Any())
+                {
+                    foreach (ContatoModel contato in Model)
+                    {
+                        <tr>
+                            <th scope="row" id="@contato.Id">@contato.Id</th>
+                            <td>@contato.Nome</td>
+                            <td>@contato.Email</td>
+                            <td>@contato.Celular</td>
+                            <td>
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <a type="button" class="btn btn-sm btn-primary" asp-route-pId="@contato.Id"
+                            asp-controller="Contato" asp-action="Editar">Editar</a>
+                                    <a type="button" class="btn btn-sm btn-danger" asp-route-pId="@contato.Id"
+                            asp-controller="Contato" asp-action="DeletarView">Deletar</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+            }
+
+        </tbody>
+    </table>
+</div>
+
